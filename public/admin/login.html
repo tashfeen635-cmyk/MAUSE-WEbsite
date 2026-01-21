@@ -177,7 +177,7 @@
       if (token) {
         try {
           await authAPI.verify();
-          window.location.href = 'dashboard.html';
+          window.location.href = '/admin/dashboard';
         } catch (error) {
           // Token invalid, remove it
           localStorage.removeItem('adminToken');
@@ -227,7 +227,7 @@
         sessionStorage.setItem('adminName', response.admin.username);
 
         // Redirect to dashboard
-        window.location.href = 'dashboard.html';
+        window.location.href = '/admin/dashboard';
       } catch (error) {
         // Failed - Show error
         errorMessage.textContent = error.message || 'Invalid username or password';

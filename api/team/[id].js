@@ -1,19 +1,15 @@
-const connectDB = require('../../lib/mongodb');
-const Team = require('../../server/models/Team');
-const jwt = require('jsonwebtoken');
-
-// Auth middleware helper
-const authenticate = (req) => {
-  const token = req.headers.authorization?.replace('Bearer ', '');
-  if (!token) {
-    throw new Error('No token provided');
+// Top-level error handler wrapper
+async function handler(req, res) {
+  // Wrapper to ensure JSON responses
+  function jsonResponse(statusCode, data) {
+    if (res.headersSent) return;
+    res.setHeader('Content-Type', 'application/json');
+    res.status(statusCode).json(data);
   }
-  return jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key-change-this-in-production');
-};
 
-module.exports = async (req, res) => {
-  // Handle CORS
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  // Set headers first
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
@@ -28,64 +24,179 @@ module.exports = async (req, res) => {
 
   const { id } = req.query;
 
+  if (!id) {
+    jsonResponse(400, { message: 'Team member ID is required' });
+    return;
+  }
+
   try {
-    await connectDB();
+    // Dynamic imports
+    let connectDB, Team, jwt;
+    
+    try {
+      connectDB = require('../../lib/mongodb');
+      Team = require('../../lib/models/Team');
+      jwt = require('jsonwebtoken');
+    } catch (moduleError) {
+      console.error('Module loading error:', moduleError);
+      jsonResponse(500, { 
+        message: 'Server configuration error',
+        error: 'Failed to load required modules'
+      });
+      return;
+    }
+
+    // Check for MongoDB URI
+    if (!process.env.MONGODB_URI) {
+      jsonResponse(500, { 
+        message: 'Server configuration error',
+        error: 'Database connection not configured'
+      });
+      return;
+    }
+
+    // Connect to MongoDB
+    try {
+      await connectDB();
+    } catch (dbError) {
+      console.error('MongoDB connection error:', dbError);
+      jsonResponse(500, { 
+        message: 'Database connection failed',
+        error: 'Unable to connect to database'
+      });
+      return;
+    }
+
+    // Auth helper
+    function authenticate() {
+      const token = req.headers.authorization?.replace('Bearer ', '');
+      if (!token) {
+        throw new Error('No token provided');
+      }
+      return jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key-change-this-in-production');
+    }
 
     // GET single team member (public)
     if (req.method === 'GET') {
-      const teamMember = await Team.findById(id);
-      if (!teamMember) {
-        return res.status(404).json({ message: 'Team member not found' });
+      try {
+        const teamMember = await Team.findById(id);
+        if (!teamMember) {
+          jsonResponse(404, { message: 'Team member not found' });
+          return;
+        }
+        jsonResponse(200, teamMember);
+        return;
+      } catch (queryError) {
+        console.error('Team query error:', queryError);
+        jsonResponse(500, { 
+          message: 'Database query failed',
+          error: 'Unable to fetch team member'
+        });
+        return;
       }
-      return res.json(teamMember);
     }
 
     // PUT update team member (protected)
     if (req.method === 'PUT') {
       try {
-        authenticate(req);
-      } catch (error) {
-        return res.status(401).json({ message: 'Unauthorized' });
+        authenticate();
+      } catch (authError) {
+        jsonResponse(401, { message: 'Unauthorized' });
+        return;
       }
 
-      const { name, position, description, image, social, order } = req.body;
-
-      const teamMember = await Team.findById(id);
-      if (!teamMember) {
-        return res.status(404).json({ message: 'Team member not found' });
+      // Parse request body
+      let body = req.body;
+      if (typeof body === 'string') {
+        try {
+          body = JSON.parse(body);
+        } catch (e) {
+          jsonResponse(400, { message: 'Invalid JSON in request body' });
+          return;
+        }
       }
 
-      if (name) teamMember.name = name;
-      if (position) teamMember.position = position;
-      if (description) teamMember.description = description;
-      if (image) teamMember.image = image;
-      if (social) teamMember.social = { ...teamMember.social, ...social };
-      if (order !== undefined) teamMember.order = order;
+      try {
+        const teamMember = await Team.findById(id);
+        if (!teamMember) {
+          jsonResponse(404, { message: 'Team member not found' });
+          return;
+        }
 
-      await teamMember.save();
-      return res.json(teamMember);
+        const { name, position, description, image, social, order } = body || {};
+
+        if (name) teamMember.name = name;
+        if (position) teamMember.position = position;
+        if (description) teamMember.description = description;
+        if (image) teamMember.image = image;
+        if (social) teamMember.social = { ...teamMember.social, ...social };
+        if (order !== undefined) teamMember.order = order;
+
+        await teamMember.save();
+        jsonResponse(200, teamMember);
+        return;
+      } catch (updateError) {
+        console.error('Team update error:', updateError);
+        jsonResponse(500, { 
+          message: 'Failed to update team member',
+          error: 'Database update failed'
+        });
+        return;
+      }
     }
 
     // DELETE team member (protected)
     if (req.method === 'DELETE') {
       try {
-        authenticate(req);
-      } catch (error) {
-        return res.status(401).json({ message: 'Unauthorized' });
+        authenticate();
+      } catch (authError) {
+        jsonResponse(401, { message: 'Unauthorized' });
+        return;
       }
 
-      const teamMember = await Team.findById(id);
-      if (!teamMember) {
-        return res.status(404).json({ message: 'Team member not found' });
-      }
+      try {
+        const teamMember = await Team.findById(id);
+        if (!teamMember) {
+          jsonResponse(404, { message: 'Team member not found' });
+          return;
+        }
 
-      await Team.findByIdAndDelete(id);
-      return res.json({ message: 'Team member deleted successfully' });
+        await Team.findByIdAndDelete(id);
+        jsonResponse(200, { message: 'Team member deleted successfully' });
+        return;
+      } catch (deleteError) {
+        console.error('Team delete error:', deleteError);
+        jsonResponse(500, { 
+          message: 'Failed to delete team member',
+          error: 'Database delete failed'
+        });
+        return;
+      }
     }
 
-    return res.status(405).json({ message: 'Method not allowed' });
+    jsonResponse(405, { message: 'Method not allowed' });
   } catch (error) {
     console.error('Team API error:', error);
-    res.status(500).json({ message: 'Server error' });
+    jsonResponse(500, { 
+      message: 'Server error',
+      error: 'An unexpected error occurred',
+      details: error.message
+    });
+  }
+}
+
+// Export with error handling wrapper
+module.exports = async (req, res) => {
+  try {
+    await handler(req, res);
+  } catch (topLevelError) {
+    console.error('TOP LEVEL ERROR:', topLevelError);
+    if (!res.headersSent) {
+      res.setHeader('Content-Type', 'application/json');
+      res.status(500).json({
+        message: 'Internal server error',
+        error: 'An unexpected error occurred'
+      });
+    }
   }
 };

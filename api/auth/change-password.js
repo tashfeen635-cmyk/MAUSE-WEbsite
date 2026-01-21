@@ -1,10 +1,10 @@
 const connectDB = require('../../lib/mongodb');
-const Admin = require('../../server/models/Admin');
+const Admin = require('../../lib/models/Admin');
 const jwt = require('jsonwebtoken');
 
 module.exports = async (req, res) => {
   // Handle CORS
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
@@ -18,50 +18,73 @@ module.exports = async (req, res) => {
   }
 
   if (req.method !== 'PUT') {
-    return res.status(405).json({ message: 'Method not allowed' });
+    res.status(405).json({ message: 'Method not allowed' });
+    return;
   }
 
   try {
+    // Parse request body if needed
+    let body = req.body;
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body);
+      } catch (e) {
+        res.status(400).json({ message: 'Invalid JSON in request body' });
+        return;
+      }
+    }
+
     await connectDB();
 
     const token = req.headers.authorization?.replace('Bearer ', '');
     
     if (!token) {
-      return res.status(401).json({ message: 'No token provided, authorization denied' });
+      res.status(401).json({ message: 'No token provided, authorization denied' });
+      return;
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key-change-this-in-production');
-    const { currentPassword, newPassword } = req.body;
+    const { currentPassword, newPassword } = body;
 
     if (!currentPassword || !newPassword) {
-      return res.status(400).json({ message: 'Current password and new password are required' });
+      res.status(400).json({ message: 'Current password and new password are required' });
+      return;
     }
 
     if (newPassword.length < 4) {
-      return res.status(400).json({ message: 'New password must be at least 4 characters' });
+      res.status(400).json({ message: 'New password must be at least 4 characters' });
+      return;
     }
 
     const admin = await Admin.findById(decoded.adminId);
     if (!admin) {
-      return res.status(404).json({ message: 'Admin not found' });
+      res.status(404).json({ message: 'Admin not found' });
+      return;
     }
 
     // Verify current password
     const isMatch = await admin.comparePassword(currentPassword);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Current password is incorrect' });
+      res.status(401).json({ message: 'Current password is incorrect' });
+      return;
     }
 
     // Update password
     admin.password = newPassword;
     await admin.save();
 
-    res.json({ message: 'Password changed successfully' });
+    res.status(200).json({ message: 'Password changed successfully' });
   } catch (error) {
     console.error('Change password error:', error);
     if (error.name === 'JsonWebTokenError') {
-      return res.status(401).json({ message: 'Token is not valid' });
+      res.status(401).json({ message: 'Token is not valid' });
+      return;
     }
-    res.status(500).json({ message: 'Server error' });
+    if (!res.headersSent) {
+      res.status(500).json({ 
+        message: 'Server error',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
+    }
   }
 };

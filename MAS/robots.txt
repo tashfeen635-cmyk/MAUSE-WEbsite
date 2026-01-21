@@ -1,0 +1,62 @@
+# Robots.txt for Maqsood Ahmed & Sons Private Limited
+# https://www.masconstruction.pk
+
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Disallow admin and private directories
+Disallow: /admin/
+Disallow: /api/
+Disallow: /uploads/
+Disallow: /*.json$
+Disallow: /node_modules/
+
+# Allow CSS, JS, and images for proper rendering
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/img/
+Allow: /assets/vendor/
+
+# Sitemap location
+Sitemap: https://www.masconstruction.pk/sitemap.xml
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Google Image Bot
+User-agent: Googlebot-Image
+Allow: /assets/img/
+
+# Bing specific
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Yandex specific
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+# Baidu specific
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /

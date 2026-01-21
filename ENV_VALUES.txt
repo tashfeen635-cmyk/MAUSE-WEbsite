@@ -1,0 +1,35 @@
+Copy and paste these values into Vercel Dashboard:
+
+===========================================
+MONGODB_URI
+===========================================
+mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/mas-website?retryWrites=true&w=majority
+
+(Replace with your actual MongoDB Atlas connection string)
+
+===========================================
+JWT_SECRET
+===========================================
+635d6848f721a0e6709cfedd5708779d23e64d26ed90755fdd6033d3934abcb2
+
+===========================================
+ADMIN_USERNAME
+===========================================
+tashu
+
+===========================================
+ADMIN_PASSWORD
+===========================================
+tashu123
+
+(Change this to a secure password in production)
+
+===========================================
+INSTRUCTIONS:
+===========================================
+1. Go to: https://vercel.com/mesum357s-projects/masss/settings/environment-variables
+2. Click "Add New" for each variable above
+3. Paste the value
+4. Select: Production, Preview, Development
+5. Click "Save"
+6. Go to Deployments tab and click "Redeploy"

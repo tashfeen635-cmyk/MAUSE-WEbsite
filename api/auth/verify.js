@@ -1,9 +1,8 @@
-const connectDB = require('../../lib/mongodb');
 const jwt = require('jsonwebtoken');
 
 module.exports = async (req, res) => {
   // Handle CORS
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
@@ -17,19 +16,21 @@ module.exports = async (req, res) => {
   }
 
   if (req.method !== 'GET') {
-    return res.status(405).json({ message: 'Method not allowed' });
+    res.status(405).json({ message: 'Method not allowed' });
+    return;
   }
 
   try {
     const token = req.headers.authorization?.replace('Bearer ', '');
     
     if (!token) {
-      return res.status(401).json({ message: 'No token provided, authorization denied' });
+      res.status(401).json({ message: 'No token provided, authorization denied' });
+      return;
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key-change-this-in-production');
     
-    res.json({ valid: true, adminId: decoded.adminId });
+    res.status(200).json({ valid: true, adminId: decoded.adminId });
   } catch (error) {
     res.status(401).json({ message: 'Token is not valid' });
   }

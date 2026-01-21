@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(while read img)",
+      "Bash(do)",
+      "Bash(webp=\"$img%.*.webp\")",
+      "Bash(if [ ! -f \"$webp\" ])",
+      "Bash(then)",
+      "Bash(echo:*)",
+      "Bash(fi)",
+      "Bash(done)"
+    ]
+  }
+}

@@ -31,15 +31,33 @@ async function apiRequest(endpoint, options = {}) {
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    const data = await response.json();
+    
+    // Check content type
+    const contentType = response.headers.get('content-type');
+    let data;
+    
+    if (contentType && contentType.includes('application/json')) {
+      data = await response.json();
+    } else {
+      // If not JSON, get text and try to parse
+      const text = await response.text();
+      console.error('Non-JSON response received:', text.substring(0, 200));
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        throw new Error(`Server returned invalid response: ${text.substring(0, 100)}`);
+      }
+    }
 
     if (!response.ok) {
-      throw new Error(data.message || 'Request failed');
+      throw new Error(data.message || data.error || `Request failed with status ${response.status}`);
     }
 
     return data;
   } catch (error) {
     console.error('API Error:', error);
+    console.error('Endpoint:', endpoint);
+    console.error('Response status:', error.response?.status);
     throw error;
   }
 }
@@ -98,12 +116,43 @@ const teamAPI = {
   }
 };
 
+// Projects API
+const projectsAPI = {
+  getAll: async () => {
+    return await apiRequest('/projects');
+  },
+
+  getOne: async (id) => {
+    return await apiRequest(`/projects/${id}`);
+  },
+
+  create: async (projectData) => {
+    return await apiRequest('/projects', {
+      method: 'POST',
+      body: JSON.stringify(projectData)
+    });
+  },
+
+  update: async (id, projectData) => {
+    return await apiRequest(`/projects/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(projectData)
+    });
+  },
+
+  delete: async (id) => {
+    return await apiRequest(`/projects/${id}`, {
+      method: 'DELETE'
+    });
+  }
+};
+
 // Upload API
 const uploadAPI = {
   uploadTeamImage: async (file) => {
     const formData = new FormData();
     formData.append('image', file);
-    
+
     const token = getAuthToken();
     const response = await fetch(`${API_BASE_URL}/upload/team`, {
       method: 'POST',
@@ -112,12 +161,33 @@ const uploadAPI = {
       },
       body: formData
     });
-    
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || 'Upload failed');
     }
-    
+
+    return await response.json();
+  },
+
+  uploadProjectImage: async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const token = getAuthToken();
+    const response = await fetch(`${API_BASE_URL}/upload/project`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Upload failed');
+    }
+
     return await response.json();
   }
 };

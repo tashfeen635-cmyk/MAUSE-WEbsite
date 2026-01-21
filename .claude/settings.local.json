@@ -1,7 +1,25 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(ls:*)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(python -m http.server:*)",
+      "Bash(start http://localhost:8080)",
+      "Bash(node server.js:*)",
+      "Bash(start http://localhost:3000/admin/login.html)",
+      "Bash(copy:*)",
+      "Bash(cmd /c copy:*)",
+      "Bash(powershell:*)",
+      "Bash(del \"d:\\\\MAS-Website\\\\MAS-Website\\\\MAS\\\\sample-inner-page.html\")",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(# Check if projects/ folder is used echo \"\"=== projects/ folder usage ===\"\" grep -r \"\"projects/\"\" \"\"d:/MAS-Website/MAS-Website/MAS/\"\"*.html)",
+      "Bash(wc -l echo \"\" echo \"PNG files \\(favicons only\\):\" find \"d:/MAS-Website/MAS-Website/MAS/assets/img\" -type f -name \"*.png\" echo \"\" echo \"Total disk space used by images:\" du -sh \"d:/MAS-Website/MAS-Website/MAS/assets/img\")",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nUpdate website with new images and service pages\n\n- Replace JPG images with WebP format for better performance\n- Add new service pages \\(solar, IT solutions, consultancy, etc.\\)\n- Update admin panel and API endpoints\n- Add project management functionality\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
     ]
   }
 }

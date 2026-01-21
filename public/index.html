@@ -379,20 +379,46 @@
         try {
           // Fetch from API
           const response = await fetch(`${API_BASE_URL}/team`);
-          if (response.ok) {
-            const teamData = await response.json();
-            if (teamData && teamData.length > 0) {
+          
+          // Check if response is OK
+          if (!response.ok) {
+            // Try to get error message from response
+            let errorMessage = `HTTP ${response.status}: Failed to fetch team data`;
+            try {
+              const errorData = await response.json();
+              errorMessage = errorData.message || errorData.error || errorMessage;
+            } catch (e) {
+              // Response is not JSON, use default message
+            }
+            throw new Error(errorMessage);
+          }
+          
+          // Parse JSON response
+          const teamData = await response.json();
+          
+          // Check if we got valid data
+          if (!teamData) {
+            throw new Error('Invalid response from server');
+          }
+          
+          // Handle array response
+          if (Array.isArray(teamData)) {
+            if (teamData.length > 0) {
               renderTeamMembers(teamData);
             } else {
               // No team members found
               container.innerHTML = '<div class="col-12 text-center"><p class="text-muted">No team members found.</p></div>';
             }
           } else {
-            throw new Error('Failed to fetch team data');
+            // Unexpected response format
+            throw new Error('Invalid response format');
           }
         } catch (error) {
           console.error('Failed to fetch team data from API:', error);
-          container.innerHTML = '<div class="col-12 text-center"><p class="text-muted">Unable to load team members. Please try again later.</p></div>';
+          container.innerHTML = `<div class="col-12 text-center">
+            <p class="text-muted">Unable to load team members.</p>
+            <p class="text-muted small">${error.message || 'Please try again later.'}</p>
+          </div>`;
         }
       }
 
