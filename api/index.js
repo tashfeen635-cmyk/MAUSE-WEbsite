@@ -250,6 +250,82 @@ app.post('/api/projects', authMiddleware, async (req, res) => {
     }
 });
 
+// ========== GALLERY ROUTES ==========
+const Gallery = require('../lib/models/Gallery');
+
+app.get('/api/gallery', async (req, res) => {
+    try {
+        await ensureConnection();
+        const galleryItems = await Gallery.find().sort({ order: 1, createdAt: -1 });
+        res.json(galleryItems);
+    } catch (error) {
+        console.error('Get gallery error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+app.post('/api/gallery', authMiddleware, async (req, res) => {
+    try {
+        await ensureConnection();
+        const { title, description, image, order } = req.body;
+
+        if (!image) {
+            return res.status(400).json({ message: 'Image is required' });
+        }
+
+        const galleryItem = new Gallery({
+            title: title || '',
+            description: description || '',
+            image,
+            order: order || 0
+        });
+
+        await galleryItem.save();
+        res.status(201).json(galleryItem);
+    } catch (error) {
+        console.error('Create gallery error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+app.delete('/api/gallery/:id', authMiddleware, async (req, res) => {
+    try {
+        await ensureConnection();
+        const galleryItem = await Gallery.findById(req.params.id);
+        if (!galleryItem) {
+            return res.status(404).json({ message: 'Gallery item not found' });
+        }
+
+        await Gallery.findByIdAndDelete(req.params.id);
+        res.json({ message: 'Gallery item deleted successfully' });
+    } catch (error) {
+        console.error('Delete gallery error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// Gallery image upload (using base64 for Vercel compatibility)
+app.post('/api/upload/gallery', authMiddleware, async (req, res) => {
+    try {
+        const { image, filename } = req.body;
+
+        if (!image) {
+            return res.status(400).json({ message: 'Image data is required' });
+        }
+
+        // For Vercel, we store base64 images directly or use external storage
+        // Return the base64 data URL directly for now
+        res.json({
+            path: image,
+            filename: filename || 'gallery-image',
+            message: 'Image uploaded successfully'
+        });
+    } catch (error) {
+        console.error('Upload gallery error:', error);
+        res.status(500).json({ message: 'Upload failed' });
+    }
+});
+
 // ========== TEST/DEBUG ROUTES ==========
 app.get('/api/test', (req, res) => {
     res.json({
