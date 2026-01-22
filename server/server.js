@@ -30,7 +30,7 @@ app.use('/api/team', require('./routes/team'));
 app.use('/api/upload', require('./routes/upload'));
 
 // MongoDB Connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mas-website';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
