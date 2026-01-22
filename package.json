@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "MAS Website - Construction Company Website",
   "scripts": {
-    "dev": "cd server && npm run dev",
-    "vercel-build": "echo No build step needed for static site"
+    "dev": "cd server && npm run dev"
   },
   "dependencies": {
     "mongoose": "^7.5.0",

@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from MAS directory
-app.use(express.static(path.join(__dirname, '../MAS')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Serve uploaded images
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -53,12 +53,12 @@ app.listen(PORT, () => {
 
 // Default route - serve index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../MAS/index.html'));
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 // Admin route - serve admin login
 app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, '../MAS/admin/login.html'));
+  res.sendFile(path.join(__dirname, '../public/admin/login.html'));
 });
 
 // Admin dashboard route
