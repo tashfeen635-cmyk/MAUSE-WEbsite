@@ -1,9 +1,12 @@
-server/
-MAS/
 node_modules/
 *.log
 .DS_Store
-server/.env
 .git/
-MAS/**
-!public/**
+server/
+server/**
+*.md
+.vscode/
+rename-folder.ps1
+set-vercel-env.ps1
+ENV_VALUES.txt
+.claude/
