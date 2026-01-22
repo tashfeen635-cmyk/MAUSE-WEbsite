@@ -6,8 +6,8 @@ Write-Host "Setting Vercel environment variables..." -ForegroundColor Green
 # Update these values:
 $MONGODB_URI = "mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/mas-website?retryWrites=true&w=majority"
 $JWT_SECRET = "635d6848f721a0e6709cfedd5708779d23e64d26ed90755fdd6033d3934abcb2"
-$ADMIN_USERNAME = "tashu"
-$ADMIN_PASSWORD = "tashu123"
+$ADMIN_USERNAME = "admin@mascorporatess.com"
+$ADMIN_PASSWORD = "mas123"
 
 Write-Host "`nIMPORTANT: Update MONGODB_URI in this script first!" -ForegroundColor Yellow
 Write-Host "`nSetting variables..." -ForegroundColor Cyan

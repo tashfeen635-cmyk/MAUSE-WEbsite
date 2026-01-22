@@ -54,8 +54,8 @@ app.post('/api/auth/login', async (req, res) => {
         }
 
         // Ensure admin exists
-        const adminUsername = process.env.ADMIN_USERNAME || 'tashu';
-        const adminPassword = process.env.ADMIN_PASSWORD || 'tashu123';
+        const adminUsername = process.env.ADMIN_USERNAME || 'admin@mascorporatess.com';
+        const adminPassword = process.env.ADMIN_PASSWORD || 'mas123';
 
         let existingAdmin = await Admin.findOne({ username: adminUsername });
         if (!existingAdmin) {
