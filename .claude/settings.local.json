@@ -19,7 +19,17 @@
       "Bash(wc -l echo \"\" echo \"PNG files \\(favicons only\\):\" find \"d:/MAS-Website/MAS-Website/MAS/assets/img\" -type f -name \"*.png\" echo \"\" echo \"Total disk space used by images:\" du -sh \"d:/MAS-Website/MAS-Website/MAS/assets/img\")",
       "Bash(git remote add:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"$\\(cat <<''EOF''\nUpdate website with new images and service pages\n\n- Replace JPG images with WebP format for better performance\n- Add new service pages \\(solar, IT solutions, consultancy, etc.\\)\n- Update admin panel and API endpoints\n- Add project management functionality\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nUpdate website with new images and service pages\n\n- Replace JPG images with WebP format for better performance\n- Add new service pages \\(solar, IT solutions, consultancy, etc.\\)\n- Update admin panel and API endpoints\n- Add project management functionality\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(vercel --version:*)",
+      "Bash(npm install:*)",
+      "Bash(vercel --prod:*)",
+      "Bash(vercel login)",
+      "Bash(git remote:*)",
+      "Bash(du:*)",
+      "Bash(git rm:*)",
+      "Bash(git commit:*)",
+      "Bash(git filter-branch:*)"
     ]
   }
 }
