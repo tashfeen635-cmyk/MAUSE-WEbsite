@@ -8,7 +8,7 @@ let toast = null;
 let loading = false;
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', async function () {
   // Check authentication
   await checkAuth();
 
@@ -27,9 +27,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 // Check if user is authenticated
 async function checkAuth() {
   const token = localStorage.getItem('adminToken');
-  
+
   if (!token) {
-    window.location.href = 'login.html';
+    window.location.href = '/admin/login.html';
     return;
   }
 
@@ -40,7 +40,7 @@ async function checkAuth() {
     localStorage.removeItem('adminToken');
     sessionStorage.removeItem('adminLoggedIn');
     sessionStorage.removeItem('adminName');
-    window.location.href = 'login.html';
+    window.location.href = '/admin/login.html';
   }
 }
 
@@ -58,7 +58,7 @@ function logout() {
   localStorage.removeItem('adminToken');
   sessionStorage.removeItem('adminLoggedIn');
   sessionStorage.removeItem('adminName');
-  window.location.href = 'login.html';
+  window.location.href = '/admin/login.html';
 }
 
 // Load team data from API
@@ -97,7 +97,7 @@ function createTeamCard(member, index) {
   // Handle image path - if it starts with /uploads, use full URL, otherwise prepend ../
   let imagePath;
   if (member.image.startsWith('/uploads/')) {
-    const baseUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+    const baseUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
       ? 'http://localhost:3000'
       : window.location.origin;
     imagePath = baseUrl + member.image;
@@ -197,10 +197,10 @@ function openAddModal() {
 function updateImagePreview(imagePath) {
   const preview = document.getElementById('imagePreview');
   let fullPath;
-  
+
   if (imagePath.startsWith('/uploads/')) {
     // Server uploaded image
-    const baseUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
+    const baseUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
       ? 'http://localhost:3000'
       : window.location.origin;
     fullPath = baseUrl + imagePath;
@@ -211,7 +211,7 @@ function updateImagePreview(imagePath) {
   } else {
     fullPath = imagePath;
   }
-  
+
   preview.innerHTML = `<img src="${fullPath}" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 8px;" onerror="this.parentElement.innerHTML='<p class=\\'text-muted\\'>Image not found</p>'">`;
 }
 
@@ -239,13 +239,13 @@ async function handleImageUpload(event) {
 
     // Upload to server
     const response = await uploadAPI.uploadTeamImage(file);
-    
+
     // Update image path
     document.getElementById('editImage').value = response.path;
-    
+
     // Show preview
     preview.innerHTML = `<img src="${response.path}" alt="Preview" style="max-width: 200px; max-height: 200px; border-radius: 8px;">`;
-    
+
     showToast('Success', 'Image uploaded successfully!', 'success');
   } catch (error) {
     document.getElementById('imagePreview').innerHTML = '<p class="text-danger">Upload failed</p>';
@@ -299,7 +299,7 @@ async function saveEdit() {
 function openDeleteModal(id) {
   const member = teamData.find(m => m._id === id);
   if (!member) return;
-  
+
   deleteIndex = id;
   document.getElementById('deleteConfirmName').textContent = member.name;
   deleteModal.show();
@@ -402,7 +402,7 @@ function importData(event) {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       try {
         const importedData = JSON.parse(e.target.result);
         if (Array.isArray(importedData)) {
@@ -452,7 +452,7 @@ function showToast(title, message, type) {
 let changePasswordModal = null;
 
 // Initialize change password modal
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const modalEl = document.getElementById('changePasswordModal');
   if (modalEl) {
     changePasswordModal = new bootstrap.Modal(modalEl);
