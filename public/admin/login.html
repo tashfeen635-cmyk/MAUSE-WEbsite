@@ -13,14 +13,16 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
   <!-- Bootstrap CSS -->
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
 
   <!-- Admin CSS -->
-  <link href="css/admin.css" rel="stylesheet">
+  <link href="/admin/css/admin.css" rel="stylesheet">
 
   <style>
     .login-form .form-control {
@@ -30,22 +32,27 @@
       font-size: 15px;
       transition: all 0.3s ease;
     }
+
     .login-form .form-control:focus {
       border-color: #feb900;
       box-shadow: 0 0 0 3px rgba(254, 185, 0, 0.15);
     }
+
     .login-form .form-label {
       font-weight: 600;
       color: #333;
       margin-bottom: 8px;
     }
+
     .login-form .form-label i {
       margin-right: 8px;
       color: #feb900;
     }
+
     .password-wrapper {
       position: relative;
     }
+
     .password-toggle {
       position: absolute;
       right: 12px;
@@ -57,9 +64,11 @@
       cursor: pointer;
       padding: 5px;
     }
+
     .password-toggle:hover {
       color: #feb900;
     }
+
     .btn-login {
       width: 100%;
       padding: 14px;
@@ -72,17 +81,20 @@
       transition: all 0.3s ease;
       margin-top: 10px;
     }
+
     .btn-login:hover {
       background-color: #e0a500;
       color: #1a1a1a;
       transform: translateY(-2px);
       box-shadow: 0 5px 20px rgba(254, 185, 0, 0.4);
     }
+
     .btn-login:disabled {
       opacity: 0.7;
       cursor: not-allowed;
       transform: none;
     }
+
     .alert-error {
       background-color: #ffebee;
       border: 1px solid #ffcdd2;
@@ -91,9 +103,11 @@
       padding: 12px 15px;
       margin-top: 15px;
     }
+
     .alert-error i {
       margin-right: 8px;
     }
+
     .secure-notice {
       background-color: #fff3cd;
       border: 1px solid #ffc107;
@@ -104,6 +118,7 @@
       color: #856404;
       text-align: center;
     }
+
     .secure-notice i {
       margin-right: 6px;
     }
@@ -132,7 +147,8 @@
           <label for="username" class="form-label">
             <i class="bi bi-person"></i>Username
           </label>
-          <input type="text" class="form-control" id="username" placeholder="Enter your username" required autocomplete="username">
+          <input type="text" class="form-control" id="username" placeholder="Enter your username" required
+            autocomplete="username">
         </div>
 
         <div class="mb-3">
@@ -140,7 +156,8 @@
             <i class="bi bi-lock"></i>Password
           </label>
           <div class="password-wrapper">
-            <input type="password" class="form-control" id="password" placeholder="Enter your password" required autocomplete="current-password">
+            <input type="password" class="form-control" id="password" placeholder="Enter your password" required
+              autocomplete="current-password">
             <button type="button" class="password-toggle" onclick="togglePassword()">
               <i class="bi bi-eye" id="toggleIcon"></i>
             </button>
@@ -168,11 +185,11 @@
   <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- API JS -->
-  <script src="js/api.js"></script>
+  <script src="/admin/js/api.js"></script>
 
   <script>
     // Check if already logged in
-    document.addEventListener('DOMContentLoaded', async function() {
+    document.addEventListener('DOMContentLoaded', async function () {
       const token = localStorage.getItem('adminToken');
       if (token) {
         try {
@@ -202,7 +219,7 @@
     }
 
     // Handle login form submission
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
       e.preventDefault();
 
       const username = document.getElementById('username').value.trim();
@@ -221,7 +238,7 @@
       try {
         // Login via API
         const response = await authAPI.login(username, password);
-        
+
         // Success - Store session
         sessionStorage.setItem('adminLoggedIn', 'true');
         sessionStorage.setItem('adminName', response.admin.username);
@@ -253,4 +270,5 @@
   </script>
 
 </body>
+
 </html>
