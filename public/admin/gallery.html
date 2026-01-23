@@ -441,7 +441,7 @@
         }
 
         // Handle file selection
-        async function handleFileSelect(event) {
+        function handleFileSelect(event) {
             const file = event.target.files[0];
             if (file) {
                 handleFile(file);
@@ -449,7 +449,7 @@
         }
 
         // Handle file
-        async function handleFile(file) {
+        function handleFile(file) {
             // Validate file type
             if (!file.type.startsWith('image/')) {
                 showToast('Error', 'Please select an image file', 'danger');
@@ -463,23 +463,14 @@
             }
 
             // Read file and show preview
-            const uploadPreview = document.getElementById('uploadPreview');
-            const previewImg = document.getElementById('previewImage');
-            const uploadForm = document.getElementById('uploadForm');
-
-            if (file) {
-                uploadPreview.style.display = 'block';
-
-                try {
-                    // Compress image before setting it to pending data
-                    pendingImageData = await compressImage(file);
-                    previewImg.src = pendingImageData;
-                    uploadForm.style.display = 'flex';
-                } catch (error) {
-                    console.error('Compression error:', error);
-                    showToast('Error', 'Failed to process image', 'danger');
-                }
-            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                pendingImageData = e.target.result;
+                document.getElementById('previewImage').src = pendingImageData;
+                document.getElementById('uploadPreview').style.display = 'block';
+                document.getElementById('uploadForm').style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
         }
 
         // Cancel upload
