@@ -28,7 +28,7 @@
   <meta name="target" content="all">
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="format-detection" content="telephone=yes">
   <meta name="theme-color" content="#feb900">
@@ -1102,11 +1102,11 @@
         });
 
         // Reinitialize GLightbox after dynamic content loads
-       (typeof GLightbox !== 'undefined') {
+        if (typeof GLightbox !== 'undefined') {
           GLightbox({
             selector: '.glightbox',
             zoomable: true,
-     draggable: true
+            draggable: true
           });
         }
       }
