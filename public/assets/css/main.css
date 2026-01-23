@@ -1147,6 +1147,37 @@ section {
   }
 }
 
+/* GLightbox Modal Fixes */
+.glightbox-container .gslide-description {
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: #fff !important;
+  max-width: 100% !important;
+}
+
+.glightbox-container .gslide-title {
+  color: #feb900 !important;
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.glightbox-container .gslide-desc {
+  color: #eee !important;
+  font-size: 14px;
+}
+
+/* Force images to fit viewport and prevent internal scrollers */
+.gslide-image img {
+  max-height: 90vh !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+.ginner-container {
+  overflow: hidden !important;
+}
+
+
 /*--------------------------------------------------------------
 # Testimonials Section
 --------------------------------------------------------------*/
@@ -3298,9 +3329,7 @@ section {
   padding: 80px 0 60px 0;
 }
 
-.footer .footer-content {
 
-}
 
 .footer .footer-content .footer-info {
   margin-bottom: 30px;
@@ -3474,6 +3503,7 @@ body {
 
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -3497,8 +3527,13 @@ body {
 }
 
 @keyframes skeleton-loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Optimize carousel/slider performance */
@@ -3509,11 +3544,15 @@ body {
 }
 
 /* Optimize hover transitions */
-a, button, .btn {
+a,
+button,
+.btn {
   will-change: auto;
 }
 
-a:hover, button:hover, .btn:hover {
+a:hover,
+button:hover,
+.btn:hover {
   will-change: color, background-color, border-color;
 }
 
@@ -3674,8 +3713,13 @@ button:active {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Improved scroll-to-top button */
@@ -3811,6 +3855,7 @@ img[loading="lazy"].loaded {
 
 /* Better mobile touch targets (min 44x44px) */
 @media (max-width: 768px) {
+
   .navbar a,
   .footer-links a,
   .btn,
@@ -3831,6 +3876,7 @@ img[loading="lazy"].loaded {
 
 /* Reduced motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -3850,6 +3896,7 @@ img[loading="lazy"].loaded {
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
+
   a:focus,
   button:focus {
     outline: 3px solid #000;
@@ -3862,6 +3909,7 @@ img[loading="lazy"].loaded {
 
 /* Print styles for user convenience */
 @media print {
+
   .header,
   .footer,
   .scroll-top,
@@ -3958,8 +4006,15 @@ button,
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 @media (max-width: 768px) {

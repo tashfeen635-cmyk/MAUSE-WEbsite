@@ -112,39 +112,67 @@ const teamAPI = {
   }
 };
 
+// Helper to compress image
+async function compressImage(file, maxWidth = 1000, quality = 0.8) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth) {
+          height = (maxWidth / width) * height;
+          width = maxWidth;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+        resolve(dataUrl);
+      };
+      img.onerror = (err) => reject(err);
+    };
+    reader.onerror = (err) => reject(err);
+  });
+}
+
 // Upload API
 const uploadAPI = {
   uploadTeamImage: async (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        try {
-          const base64Data = e.target.result;
-          const token = getAuthToken();
-          const response = await fetch(`${API_BASE_URL}/upload/team`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-              image: base64Data,
-              filename: file.name
-            })
-          });
+    try {
+      // Compress image before upload
+      const base64Data = await compressImage(file);
+      const token = getAuthToken();
+      const response = await fetch(`${API_BASE_URL}/upload/team`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          image: base64Data,
+          filename: file.name
+        })
+      });
 
-          const data = await response.json();
-          if (!response.ok) {
-            throw new Error(data.message || 'Upload failed');
-          }
-          resolve(data);
-        } catch (error) {
-          reject(error);
-        }
-      };
-      reader.onerror = () => reject(new Error('File reading failed'));
-      reader.readAsDataURL(file);
-    });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || 'Upload failed');
+      }
+      return data;
+    } catch (error) {
+      console.error('Upload Error:', error);
+      throw error;
+    }
   }
 };
 

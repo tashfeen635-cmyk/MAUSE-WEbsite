@@ -282,7 +282,9 @@
           const projectHTML = `
             <div class="col-lg-4 col-md-6 portfolio-item">
               <div class="portfolio-content">
-                <a href="${imagePath}" class="glightbox" data-gallery="gallery-projects">
+                <a href="${imagePath}" class="glightbox" data-gallery="gallery-projects"
+                   data-title="${project.title || 'Project Image'}"
+                   data-description="${project.description || ''}">
                   <img src="${imagePath}" class="img-fluid" alt="${project.title}">
                 </a>
                 <div class="portfolio-info">
@@ -299,7 +301,9 @@
         // Reinitialize GLightbox after dynamic content loads
         if (typeof GLightbox !== 'undefined') {
           GLightbox({
-            selector: '.glightbox'
+            selector: '.glightbox',
+            zoomable: true,
+            draggable: true
           });
         }
       }
