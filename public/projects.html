@@ -283,6 +283,7 @@
             <div class="col-lg-4 col-md-6 portfolio-item">
               <div class="portfolio-content">
                 <a href="${imagePath}" class="glightbox" data-gallery="gallery-projects"
+                   data-type="image"
                    data-title="${project.title || 'Project Image'}"
                    data-description="${project.description || ''}">
                   <img src="${imagePath}" class="img-fluid" alt="${project.title}">
@@ -303,7 +304,8 @@
           GLightbox({
             selector: '.glightbox',
             zoomable: true,
-            draggable: true
+            draggable: true,
+            descPosition: 'bottom'
           });
         }
       }
