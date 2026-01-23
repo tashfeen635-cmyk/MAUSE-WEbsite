@@ -77,14 +77,21 @@ async function loadTeamData() {
 
 // Toggle sidebar
 function toggleSidebar() {
-  console.log('toggleSidebar called');
+  console.log('=== toggleSidebar called ===');
+  console.log('Viewport width:', window.innerWidth);
+  console.log('Is mobile view (<=991px):', window.innerWidth <= 991);
+
   const sidebar = document.getElementById('sidebar');
   const mainContent = document.querySelector('.main-content');
 
   if (!sidebar) {
-    console.error('Sidebar element not found!');
+    console.error('ERROR: Sidebar element not found!');
     return;
   }
+
+  console.log('Before toggle - Sidebar classes:', sidebar.className);
+  console.log('Before toggle - Has "active" class:', sidebar.classList.contains('active'));
+  console.log('Before toggle - Has "collapsed" class:', sidebar.classList.contains('collapsed'));
 
   // Toggle classes for both mobile and desktop
   sidebar.classList.toggle('collapsed'); // Desktop toggle
@@ -96,7 +103,10 @@ function toggleSidebar() {
     console.warn('Main content element not found');
   }
 
-  console.log('Sidebar classes:', sidebar.className);
+  console.log('After toggle - Sidebar classes:', sidebar.className);
+  console.log('After toggle - Has "active" class:', sidebar.classList.contains('active'));
+  console.log('After toggle - Has "collapsed" class:', sidebar.classList.contains('collapsed'));
+  console.log('=== toggleSidebar complete ===');
 }
 
 // Render team members grid

@@ -1,6 +1,4 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
     {
       "source": "/api/:path*",
@@ -8,35 +6,11 @@
     },
     {
       "source": "/admin",
-      "destination": "/public/admin/login.html"
+      "destination": "/admin/login.html"
     },
     {
       "source": "/admin/dashboard",
-      "destination": "/public/admin/dashboard.html"
-    },
-    {
-      "source": "/admin/gallery",
-      "destination": "/public/admin/gallery.html"
-    },
-    {
-      "source": "/admin/js/:path*",
-      "destination": "/public/admin/js/:path*"
-    },
-    {
-      "source": "/admin/css/:path*",
-      "destination": "/public/admin/css/:path*"
-    },
-    {
-      "source": "/assets/:path*",
-      "destination": "/public/assets/:path*"
-    },
-    {
-      "source": "/",
-      "destination": "/public/index.html"
-    },
-    {
-      "source": "/((?!api/).*)",
-      "destination": "/public/$1"
+      "destination": "/admin/dashboard.html"
     }
   ],
   "headers": [
