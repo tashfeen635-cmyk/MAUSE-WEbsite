@@ -28,6 +28,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/team', require('./routes/team'));
 app.use('/api/upload', require('./routes/upload'));
+app.use('/api/gallery', require('./routes/gallery'));
+app.use('/api/projects', require('./routes/projects'));
 
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI;
