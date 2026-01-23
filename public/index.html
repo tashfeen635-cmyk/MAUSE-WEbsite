@@ -728,52 +728,6 @@
       ? 'http://localhost:3000/api'
       : `${window.location.protocol}//${window.location.host}/api`;
 
-    // Fallback team data - used when API is not available
-    const fallbackTeamData = [
-      {
-        name: "Maqsood Ahmed",
-        position: "Founder & Chairman",
-        description: "Visionary leader with 50+ years of experience in construction and infrastructure development across Gilgit-Baltistan.",
-        image: "assets/img/team/team-1.webp",
-        social: { twitter: "#", facebook: "#", instagram: "#", linkedin: "#" }
-      },
-      {
-        name: "Ahmed Khan",
-        position: "Chief Executive Officer",
-        description: "Strategic leader driving company growth and operational excellence with deep expertise in project management.",
-        image: "assets/img/team/team-2.webp",
-        social: { twitter: "#", facebook: "#", instagram: "#", linkedin: "#" }
-      },
-      {
-        name: "Hassan Ali",
-        position: "Chief Operations Officer",
-        description: "Expert in managing large-scale construction projects with focus on quality, safety, and timely delivery.",
-        image: "assets/img/team/team-3.webp",
-        social: { twitter: "#", facebook: "#", instagram: "#", linkedin: "#" }
-      },
-      {
-        name: "Karim Shah",
-        position: "Chief Engineer",
-        description: "PEC registered engineer specializing in road construction, building design, and infrastructure development.",
-        image: "assets/img/team/team-4.webp",
-        social: { twitter: "#", facebook: "#", instagram: "#", linkedin: "#" }
-      },
-      {
-        name: "Fahad Hussain",
-        position: "Project Manager",
-        description: "Skilled in coordinating complex projects, resource management, and client relations across multiple sites.",
-        image: "assets/img/team/team-5.webp",
-        social: { twitter: "#", facebook: "#", instagram: "#", linkedin: "#" }
-      },
-      {
-        name: "Bilal Ahmed",
-        position: "Technical Director",
-        description: "Leading technical innovations in solar energy solutions and IT infrastructure for modern construction needs.",
-        image: "assets/img/team/team-6.webp",
-        social: { twitter: "#", facebook: "#", instagram: "#", linkedin: "#" }
-      }
-    ];
-
     // Load team data on page load
     document.addEventListener('DOMContentLoaded', function () {
       loadTeamSection();
@@ -791,16 +745,16 @@
           if (teamData && teamData.length > 0) {
             renderTeamMembers(teamData);
           } else {
-            // No team members in API, use fallback
-            console.log('No team members from API, using fallback data');
-            renderTeamMembers(fallbackTeamData);
+            // No team members in API
+            console.log('No team members from API');
+            container.innerHTML = '<div class="col-12 text-center"><p>No team members added yet.</p></div>';
           }
         } else {
           throw new Error('Failed to fetch team data');
         }
       } catch (error) {
-        console.log('Using fallback team data:', error.message);
-        renderTeamMembers(fallbackTeamData);
+        console.error('Error loading team data:', error.message);
+        container.innerHTML = '<div class="col-12 text-center text-danger"><p>Failed to load team members.</p></div>';
       }
     }
 
