@@ -7,8 +7,8 @@ const app = express();
 
 // Middleware
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Database connection helper - ensures we only connect once per cold start
 let isConnected = false;
@@ -322,6 +322,27 @@ app.post('/api/upload/gallery', authMiddleware, async (req, res) => {
         });
     } catch (error) {
         console.error('Upload gallery error:', error);
+        res.status(500).json({ message: 'Upload failed' });
+    }
+});
+
+// Team image upload (using base64 for Vercel compatibility)
+app.post('/api/upload/team', authMiddleware, async (req, res) => {
+    try {
+        const { image, filename } = req.body;
+
+        if (!image) {
+            return res.status(400).json({ message: 'Image data is required' });
+        }
+
+        // For Vercel, we return the base64 data URL directly
+        res.json({
+            path: image,
+            filename: filename || 'team-image',
+            message: 'Image uploaded successfully'
+        });
+    } catch (error) {
+        console.error('Upload team error:', error);
         res.status(500).json({ message: 'Upload failed' });
     }
 });

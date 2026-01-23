@@ -15,8 +15,8 @@ if (!fs.existsSync(uploadsDir)) {
 
 // Middleware
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Serve static files from MAS directory
 app.use(express.static(path.join(__dirname, '../public')));
@@ -36,14 +36,14 @@ mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => {
-  console.log('Connected to MongoDB');
-  // Initialize admin user if not exists
-  require('./config/initAdmin')();
-})
-.catch((err) => {
-  console.error('MongoDB connection error:', err);
-});
+  .then(() => {
+    console.log('Connected to MongoDB');
+    // Initialize admin user if not exists
+    require('./config/initAdmin')();
+  })
+  .catch((err) => {
+    console.error('MongoDB connection error:', err);
+  });
 
 const PORT = process.env.PORT || 3000;
 
@@ -63,5 +63,5 @@ app.get('/admin', (req, res) => {
 
 // Admin dashboard route
 app.get('/admin/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, '../MAS/admin/dashboard.html'));
+  res.sendFile(path.join(__dirname, '../public/admin/dashboard.html'));
 });

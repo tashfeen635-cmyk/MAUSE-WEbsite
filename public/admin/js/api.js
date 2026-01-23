@@ -33,7 +33,15 @@ async function apiRequest(endpoint, options = {}) {
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    const data = await response.json();
+
+    let data;
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.indexOf("application/json") !== -1) {
+      data = await response.json();
+    } else {
+      const text = await response.text();
+      throw new Error(text || 'Server returned non-JSON response');
+    }
 
     if (!response.ok) {
       throw new Error(data.message || 'Request failed');
@@ -41,6 +49,10 @@ async function apiRequest(endpoint, options = {}) {
 
     return data;
   } catch (error) {
+    if (error.name === 'SyntaxError') {
+      console.error('JSON Parsing Error:', error);
+      throw new Error('Server returned invalid JSON. Check console for details.');
+    }
     console.error('API Error:', error);
     throw error;
   }
@@ -103,24 +115,36 @@ const teamAPI = {
 // Upload API
 const uploadAPI = {
   uploadTeamImage: async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const base64Data = e.target.result;
+          const token = getAuthToken();
+          const response = await fetch(`${API_BASE_URL}/upload/team`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              image: base64Data,
+              filename: file.name
+            })
+          });
 
-    const token = getAuthToken();
-    const response = await fetch(`${API_BASE_URL}/upload/team`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      },
-      body: formData
+          const data = await response.json();
+          if (!response.ok) {
+            throw new Error(data.message || 'Upload failed');
+          }
+          resolve(data);
+        } catch (error) {
+          reject(error);
+        }
+      };
+      reader.onerror = () => reject(new Error('File reading failed'));
+      reader.readAsDataURL(file);
     });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Upload failed');
-    }
-
-    return await response.json();
   }
 };
 
