@@ -9,8 +9,10 @@
   <!-- Primary Meta Tags -->
   <title>200+ Construction Projects Gilgit-Baltistan | Road, Building, Solar Portfolio - MAS</title>
   <meta name="title" content="200+ Construction Projects Gilgit-Baltistan | Road, Building, Solar Portfolio - MAS">
-  <meta name="description" content="Explore 200+ completed construction projects by Maqsood Ahmed & Sons across Gilgit-Baltistan. Road construction, Karakoram Highway projects, bridge infrastructure, commercial buildings, government contracts, solar installations. 50+ years of proven excellence. View our portfolio.">
-  <meta name="keywords" content="construction projects Gilgit-Baltistan, Karakoram Highway construction projects, road projects Pakistan, bridge construction GB, infrastructure projects Hunza Skardu, solar energy projects Gilgit, commercial building projects Pakistan, government construction contracts GB, MAS portfolio, completed projects Pakistan, construction gallery Gilgit, road construction portfolio, building construction projects">
+  <meta name="description"
+    content="Explore 200+ completed construction projects by Maqsood Ahmed & Sons across Gilgit-Baltistan. Road construction, Karakoram Highway projects, bridge infrastructure, commercial buildings, government contracts, solar installations. 50+ years of proven excellence. View our portfolio.">
+  <meta name="keywords"
+    content="construction projects Gilgit-Baltistan, Karakoram Highway construction projects, road projects Pakistan, bridge construction GB, infrastructure projects Hunza Skardu, solar energy projects Gilgit, commercial building projects Pakistan, government construction contracts GB, MAS portfolio, completed projects Pakistan, construction gallery Gilgit, road construction portfolio, building construction projects">
 
   <!-- Advanced SEO Meta Tags -->
   <meta name="author" content="Maqsood Ahmed & Sons Private Limited">
@@ -28,7 +30,8 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.masconstruction.pk/projects.html">
   <meta property="og:title" content="200+ Construction Projects Portfolio | MAS Gilgit-Baltistan">
-  <meta property="og:description" content="View our portfolio of road construction, infrastructure, building, and solar energy projects. 50+ years of excellence in Gilgit-Baltistan.">
+  <meta property="og:description"
+    content="View our portfolio of road construction, infrastructure, building, and solar energy projects. 50+ years of excellence in Gilgit-Baltistan.">
   <meta property="og:image" content="https://www.masconstruction.pk/assets/img/og-image.webp">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -38,7 +41,8 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="200+ Construction Projects | MAS Gilgit-Baltistan">
-  <meta name="twitter:description" content="Road construction, bridges, buildings & solar installations. 50+ years of proven excellence.">
+  <meta name="twitter:description"
+    content="Road construction, bridges, buildings & solar installations. 50+ years of proven excellence.">
   <meta name="twitter:image" content="https://www.masconstruction.pk/assets/img/og-image.webp">
 
   <!-- Structured Data - CollectionPage Enhanced -->
@@ -209,7 +213,8 @@
 
         <div class="section-header">
           <h2>Our Gallery</h2>
-          <p>Showcasing our excellence in construction, road engineering, and infrastructure development across Gilgit-Baltistan. We take pride in delivering quality projects that stand the test of time.</p>
+          <p>Showcasing our excellence in construction, road engineering, and infrastructure development across
+            Gilgit-Baltistan. We take pride in delivering quality projects that stand the test of time.</p>
         </div>
 
         <div class="row gy-4 portfolio-container" id="projectsContainer" data-aos="fade-up" data-aos-delay="200">
@@ -231,24 +236,8 @@
         ? 'http://localhost:3000/api'
         : `${window.location.protocol}//${window.location.host}/api`;
 
-      // Fallback projects data (used when API is unavailable)
-      const fallbackProjects = [
-        { title: 'Road Network GB', description: 'Road construction and engineering in Gilgit-Baltistan', image: 'assets/img/Project Showcase/All/izzuddin-azzam-HKBtu2w52DA-unsplash.webp' },
-        { title: 'Commercial Building', description: 'Quality commercial construction with superior materials', image: 'assets/img/Project Showcase/All/sindy-sussengut-yo5M9vCzBcM-unsplash.webp' },
-        { title: 'Bridge Construction', description: 'Infrastructure development for GB region', image: 'assets/img/Project Showcase/All/ronan-furuta-K3CCzazT5Y8-unsplash.webp' },
-        { title: 'Solar Installation', description: 'Renewable energy solutions for sustainable power', image: 'assets/img/Project Showcase/All/pexels-kateryna-babaieva-1423213-3730670.webp' },
-        { title: 'Highway Project', description: 'Traffic engineering and road safety implementation', image: 'assets/img/Project Showcase/All/chelsea-WvusC5M-TM8-unsplash.webp' },
-        { title: 'Residential Complex', description: 'Quality residential construction in GB region', image: 'assets/img/Project Showcase/All/american-public-power-association-513dBrMJ_5w-unsplash.webp' },
-        { title: 'Civil Engineering', description: 'Planning, execution and inspection of civil works', image: 'assets/img/Project Showcase/All/ant-rozetsky-io7dX_1EFCg-unsplash.webp' },
-        { title: 'Solar Power System', description: 'Energy system design and engineering', image: 'assets/img/Project Showcase/All/karan-bhatia-ib7jwp7m0iA-unsplash.webp' },
-        { title: 'Road Safety Works', description: 'Traffic engineering for safer roads in GB', image: 'assets/img/Project Showcase/All/lucas-kepner-Yn8D5B8C-eY-unsplash.webp' },
-        { title: 'Government Building', description: 'PWD approved construction projects', image: 'assets/img/Project Showcase/All/art-institute-of-chicago-9ukqHb3KrEw-unsplash.webp' },
-        { title: 'Engineering Supplies', description: 'Heavy machinery and equipment supply', image: 'assets/img/Project Showcase/All/WhatsApp Image 2026-01-19 at 3.55.30 PM.webp' },
-        { title: 'Solar Maintenance', description: 'Performance optimization and maintenance services', image: 'assets/img/Project Showcase/All/WhatsApp Image 2026-01-19 at 3.55.59 PM.webp' }
-      ];
-
       // Load projects on page load
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', function () {
         loadProjectsSection();
       });
 
@@ -257,21 +246,20 @@
 
         try {
           // Fetch from API
-          const response = await fetch(`${API_BASE_URL}/projects`);
+          const response = await fetch(`${API_BASE_URL}/gallery`);
           if (response.ok) {
             const projects = await response.json();
             if (projects && projects.length > 0) {
               renderProjects(projects);
             } else {
-              // No projects in database, use fallback
-              renderProjects(fallbackProjects);
+              container.innerHTML = '<div class="col-12 text-center py-4"><p>No images found in gallery.</p></div>';
             }
           } else {
             throw new Error('API request failed');
           }
         } catch (error) {
-          console.log('Using fallback projects data:', error.message);
-          renderProjects(fallbackProjects);
+          console.error('API Error:', error);
+          container.innerHTML = '<div class="col-12 text-center py-4 text-danger"><p>Failed to load gallery images.</p></div>';
         }
       }
 
@@ -337,9 +325,13 @@
                 <strong>Email:</strong> masconstt@gmail.com<br>
               </p>
               <div class="social-links d-flex mt-3">
-                <a href="https://www.facebook.com/share/1G4FYv7epo/?mibextid=wwXIfr" target="_blank" class="d-flex align-items-center justify-content-center"><i class="bi bi-facebook"></i></a>
-                <a href="https://www.instagram.com/maqsood_ahmed_sons?igsh=am91ZzJ0N3hlZGk5&utm_source=qr" target="_blank" class="d-flex align-items-center justify-content-center"><i class="bi bi-instagram"></i></a>
-                <a href="https://wa.me/923143283009" target="_blank" class="d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
+                <a href="https://www.facebook.com/share/1G4FYv7epo/?mibextid=wwXIfr" target="_blank"
+                  class="d-flex align-items-center justify-content-center"><i class="bi bi-facebook"></i></a>
+                <a href="https://www.instagram.com/maqsood_ahmed_sons?igsh=am91ZzJ0N3hlZGk5&utm_source=qr"
+                  target="_blank" class="d-flex align-items-center justify-content-center"><i
+                    class="bi bi-instagram"></i></a>
+                <a href="https://wa.me/923143283009" target="_blank"
+                  class="d-flex align-items-center justify-content-center"><i class="bi bi-whatsapp"></i></a>
               </div>
             </div>
           </div><!-- End footer info column-->
@@ -399,7 +391,9 @@
           &copy; Copyright <strong><span>Maqsood Ahmed & Sons Private Limited</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
-          Crafted with care by <strong><a href="https://tashu-studio.netlify.app/" target="_blank" rel="noopener noreferrer" title="Tashfeen Bin Riaz - Web Developer & Designer">Tashfeen Bin Riaz</a></strong>
+          Crafted with care by <strong><a href="https://tashu-studio.netlify.app/" target="_blank"
+              rel="noopener noreferrer" title="Tashfeen Bin Riaz - Web Developer & Designer">Tashfeen Bin
+              Riaz</a></strong>
         </div>
       </div>
     </div>
@@ -412,7 +406,7 @@
 
   <!-- WhatsApp Floating Button -->
   <a href="https://wa.me/923143283009?text=Hello%20MAS%20Construction%2C%20I%20saw%20your%20projects%20and%20would%20like%20to%20discuss%20a%20similar%20project."
-     class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp">
+    class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp">
     <i class="bi bi-whatsapp"></i>
   </a>
 
