@@ -6,11 +6,15 @@
     },
     {
       "source": "/admin",
-      "destination": "/admin/login.html"
+      "destination": "/public/admin/login.html"
     },
     {
       "source": "/admin/dashboard",
-      "destination": "/admin/dashboard.html"
+      "destination": "/public/admin/dashboard.html"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/public/$1"
     }
   ],
   "headers": [

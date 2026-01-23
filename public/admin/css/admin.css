@@ -190,6 +190,25 @@ body {
   font-size: 18px;
 }
 
+.close-sidebar {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+  display: none;
+  line-height: 1;
+  padding: 5px;
+  transition: color 0.3s;
+}
+
+.close-sidebar:hover {
+  color: var(--primary-color);
+}
+
 .sidebar-nav {
   list-style: none;
   padding: 20px 0;
@@ -474,10 +493,16 @@ body {
 @media (max-width: 991px) {
   .sidebar {
     margin-left: calc(var(--sidebar-width) * -1);
+    transition: margin-left 0.3s ease-in-out;
   }
 
   .sidebar.active {
-    margin-left: 0;
+    margin-left: 0 !important;
+    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .close-sidebar {
+    display: block;
   }
 
   .main-content {

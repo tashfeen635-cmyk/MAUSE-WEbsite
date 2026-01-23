@@ -77,8 +77,26 @@ async function loadTeamData() {
 
 // Toggle sidebar
 function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('collapsed');
-  document.querySelector('.main-content').classList.toggle('expanded');
+  console.log('toggleSidebar called');
+  const sidebar = document.getElementById('sidebar');
+  const mainContent = document.querySelector('.main-content');
+
+  if (!sidebar) {
+    console.error('Sidebar element not found!');
+    return;
+  }
+
+  // Toggle classes for both mobile and desktop
+  sidebar.classList.toggle('collapsed'); // Desktop toggle
+  sidebar.classList.toggle('active');    // Mobile toggle
+
+  if (mainContent) {
+    mainContent.classList.toggle('expanded');
+  } else {
+    console.warn('Main content element not found');
+  }
+
+  console.log('Sidebar classes:', sidebar.className);
 }
 
 // Render team members grid

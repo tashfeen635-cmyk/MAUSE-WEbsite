@@ -157,6 +157,7 @@
     <!-- Sidebar -->
     <nav id="sidebar" class="sidebar">
         <div class="sidebar-header">
+            <button class="close-sidebar" onclick="toggleSidebar()"><i class="bi bi-x"></i></button>
             <img src="../assets/img/logo.webp" alt="MAS Logo" class="sidebar-logo">
             <h4>Admin Panel</h4>
         </div>
@@ -384,8 +385,26 @@
 
         // Toggle sidebar
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('collapsed');
-            document.querySelector('.main-content').classList.toggle('expanded');
+            console.log('toggleSidebar called (gallery)');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            if (!sidebar) {
+                console.error('Sidebar element not found!');
+                return;
+            }
+
+            // Toggle classes for both mobile and desktop
+            sidebar.classList.toggle('collapsed'); // Desktop toggle
+            sidebar.classList.toggle('active');    // Mobile toggle
+
+            if (mainContent) {
+                mainContent.classList.toggle('expanded');
+            } else {
+                console.warn('Main content element not found');
+            }
+
+            console.log('Sidebar classes:', sidebar.className);
         }
 
         // Setup drag and drop
