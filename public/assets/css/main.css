@@ -2576,32 +2576,60 @@ section {
 .hero {
   overflow-x: hidden;
   padding: 0;
+  position: relative;
 }
 
 .hero .carousel {
   width: 100%;
   min-height: 100vh;
-  padding: 80px 0;
   margin: 0;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.hero .carousel-inner {
+  height: 100%;
+  min-height: 100vh;
 }
 
 .hero .carousel-item {
+  height: 100%;
+  min-height: 100vh;
+}
+
+.hero .carousel-fade .carousel-item {
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
+
+.hero .carousel-fade .carousel-item.active {
+  opacity: 1;
+}
+
+.hero .hero-slide {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  overflow: hidden;
-  z-index: 1;
-  transition-duration: 0.4s;
+  min-height: 100vh;
 }
 
-.hero .carousel-item::before {
+.hero .hero-slide::before {
   content: "";
-  background-color: rgba(0, 0, 0, 0.4);
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.5) 100%);
+  z-index: 1;
 }
 
 .hero .info {

@@ -499,17 +499,6 @@
       min-height: 100vh;
     }
 
-    /* Dark overlay for better text visibility */
-    #hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.6) 100%);
-      z-index: 1;
-    }
 
     #hero .info {
       position: absolute;
@@ -632,7 +621,7 @@
             <!-- Company Tagline (Second Slide onwards) -->
             <div id="hero-content-company" class="hero-content">
               <h2>Where You Experience</h2>
-              <p style="font-size: 40px; font-family: Poppins;">Quality · Delivered· Trust ·Build</p>
+              <p style="font-size: 40px; font-family: Poppins;">Vision · Crafted · Strength · Excellence</p>
               <a href="#team" class="btn-get-started">Let's Explore</a>
             </div>
           </div>
@@ -640,14 +629,24 @@
       </div>
     </div>
 
-    <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-
-      <div class="carousel-item active" style="background-image: url(assets/img/hero-carousel/hero-carousel-1.webp)">
+    <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="hero-slide" style="background-image: url(assets/img/hero-carousel/hero-carousel-1.webp)"></div>
+        </div>
+        <div class="carousel-item">
+          <div class="hero-slide" style="background-image: url(assets/img/hero-carousel/hero-carousel-2.webp)"></div>
+        </div>
+        <div class="carousel-item">
+          <div class="hero-slide" style="background-image: url(assets/img/hero-carousel/hero-carousel-3.webp)"></div>
+        </div>
+        <div class="carousel-item">
+          <div class="hero-slide" style="background-image: url(assets/img/hero-carousel/hero-carousel-4.webp)"></div>
+        </div>
+        <div class="carousel-item">
+          <div class="hero-slide" style="background-image: url(assets/img/hero-carousel/hero-carousel-5.webp)"></div>
+        </div>
       </div>
-      <div class="carousel-item" style="background-image: url(assets/img/hero-carousel/hero-carousel-2.webp)"></div>
-      <div class="carousel-item" style="background-image: url(assets/img/hero-carousel/hero-carousel-3.webp)"></div>
-      <div class="carousel-item" style="background-image: url(assets/img/hero-carousel/hero-carousel-4.webp)"></div>
-      <div class="carousel-item" style="background-image: url(assets/img/hero-carousel/hero-carousel-5.webp)"></div>
 
       <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
         <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
@@ -834,10 +833,7 @@
             data-aos-delay="100"></div>
 
           <div class="col-lg-5 d-flex flex-column justify-content-center">
-            <h3>About Us - Over 50 Years of Excellence</h3>
-            <p>M/S Maqsood Ahmed & Sons started its small scale operations humbly in 1972 and today it is one of the
-              leading construction companies of the GB region. This has become possible only with determined efforts of
-              our dedicated staff and encouragement from our valued clients.</p>
+
             <div>
               <div>
                 <h1>“Statement of Facts”</h1>
