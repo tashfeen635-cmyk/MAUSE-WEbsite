@@ -29,7 +29,8 @@
       "Bash(du:*)",
       "Bash(git rm:*)",
       "Bash(git commit:*)",
-      "Bash(git filter-branch:*)"
+      "Bash(git filter-branch:*)",
+      "Bash(git mv:*)"
     ]
   }
 }
