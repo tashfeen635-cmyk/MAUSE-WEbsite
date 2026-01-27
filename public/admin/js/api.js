@@ -115,36 +115,23 @@ const teamAPI = {
 // Upload API
 const uploadAPI = {
   uploadTeamImage: async (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        try {
-          const base64Data = e.target.result;
-          const token = getAuthToken();
-          const response = await fetch(`${API_BASE_URL}/upload/team`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-              image: base64Data,
-              filename: file.name
-            })
-          });
+    const formData = new FormData();
+    formData.append('image', file);
 
-          const data = await response.json();
-          if (!response.ok) {
-            throw new Error(data.message || 'Upload failed');
-          }
-          resolve(data);
-        } catch (error) {
-          reject(error);
-        }
-      };
-      reader.onerror = () => reject(new Error('File reading failed'));
-      reader.readAsDataURL(file);
+    const token = getAuthToken();
+    const response = await fetch(`${API_BASE_URL}/upload/team`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
     });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || 'Upload failed');
+    }
+    return data;
   }
 };
 
